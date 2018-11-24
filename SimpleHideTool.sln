@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleHideTool", "SimpleHideTool\SimpleHideTool.vcxproj", "{6023A453-F342-4549-BBFF-D1FEF479673E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleHideToolLib", "SimpleHideToolLib\SimpleHideToolLib.vcxproj", "{5847D82F-D36A-42E7-B07B-B1DE3FF75121}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleHideToolDll", "SimpleHideToolDll\SimpleHideToolDll.vcxproj", "{CE296253-9114-463B-A5BF-5230F3C3D8C2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6023A453-F342-4549-BBFF-D1FEF479673E}.Debug|x64.ActiveCfg = Debug|x64
+		{6023A453-F342-4549-BBFF-D1FEF479673E}.Debug|x64.Build.0 = Debug|x64
+		{6023A453-F342-4549-BBFF-D1FEF479673E}.Debug|x86.ActiveCfg = Debug|Win32
+		{6023A453-F342-4549-BBFF-D1FEF479673E}.Debug|x86.Build.0 = Debug|Win32
+		{6023A453-F342-4549-BBFF-D1FEF479673E}.Release|x64.ActiveCfg = Release|x64
+		{6023A453-F342-4549-BBFF-D1FEF479673E}.Release|x64.Build.0 = Release|x64
+		{6023A453-F342-4549-BBFF-D1FEF479673E}.Release|x86.ActiveCfg = Release|Win32
+		{6023A453-F342-4549-BBFF-D1FEF479673E}.Release|x86.Build.0 = Release|Win32
+		{5847D82F-D36A-42E7-B07B-B1DE3FF75121}.Debug|x64.ActiveCfg = Debug|x64
+		{5847D82F-D36A-42E7-B07B-B1DE3FF75121}.Debug|x64.Build.0 = Debug|x64
+		{5847D82F-D36A-42E7-B07B-B1DE3FF75121}.Debug|x86.ActiveCfg = Debug|Win32
+		{5847D82F-D36A-42E7-B07B-B1DE3FF75121}.Debug|x86.Build.0 = Debug|Win32
+		{5847D82F-D36A-42E7-B07B-B1DE3FF75121}.Release|x64.ActiveCfg = Release|x64
+		{5847D82F-D36A-42E7-B07B-B1DE3FF75121}.Release|x64.Build.0 = Release|x64
+		{5847D82F-D36A-42E7-B07B-B1DE3FF75121}.Release|x86.ActiveCfg = Release|Win32
+		{5847D82F-D36A-42E7-B07B-B1DE3FF75121}.Release|x86.Build.0 = Release|Win32
+		{CE296253-9114-463B-A5BF-5230F3C3D8C2}.Debug|x64.ActiveCfg = Debug|x64
+		{CE296253-9114-463B-A5BF-5230F3C3D8C2}.Debug|x64.Build.0 = Debug|x64
+		{CE296253-9114-463B-A5BF-5230F3C3D8C2}.Debug|x86.ActiveCfg = Debug|Win32
+		{CE296253-9114-463B-A5BF-5230F3C3D8C2}.Debug|x86.Build.0 = Debug|Win32
+		{CE296253-9114-463B-A5BF-5230F3C3D8C2}.Release|x64.ActiveCfg = Release|x64
+		{CE296253-9114-463B-A5BF-5230F3C3D8C2}.Release|x64.Build.0 = Release|x64
+		{CE296253-9114-463B-A5BF-5230F3C3D8C2}.Release|x86.ActiveCfg = Release|Win32
+		{CE296253-9114-463B-A5BF-5230F3C3D8C2}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
