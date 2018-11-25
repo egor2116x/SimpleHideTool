@@ -7,7 +7,6 @@
 
 SERVICE_STATUS        Service::m_ServiceStatus;
 SERVICE_STATUS_HANDLE Service::m_ServiceStatusHandle = NULL;
-HANDLE g_ServiceStopEvent = INVALID_HANDLE_VALUE;
 
 Service Service::m_instance;
 
