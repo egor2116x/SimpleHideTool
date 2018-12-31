@@ -117,7 +117,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>$(SolutionDir)$(Configuration)\$(Platform)\$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(SolutionDir)$(Configuration)\$(Platform)\$(TargetName).pdb</ProgramDatabaseFile>
-      <AdditionalLibraryDirectories>SimpleHideToolLib.lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
       <AdditionalDependencies>Userenv.lib;Wtsapi32.lib;Dbghelp.lib;Rpcrt4.lib;ntdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

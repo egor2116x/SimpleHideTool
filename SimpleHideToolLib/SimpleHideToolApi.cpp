@@ -641,7 +641,7 @@ bool ShtApi::SetHideProcessList(const std::vector<std::wstring>& processList)
     }
     buff += L'\0';
 
-    status = RegSetValueExW(hKey, CONFIG_REGISTRY_USER_MODE_SUBKEY, 0, REG_MULTI_SZ, reinterpret_cast<const BYTE*>(&buff[0]), buff.size() / sizeof(wchar_t));
+    status = RegSetValueExW(hKey, CONFIG_REGISTRY_PROCESS_HIDE, 0, REG_MULTI_SZ, reinterpret_cast<const BYTE*>(&buff[0]), buff.size() / sizeof(wchar_t));
     if (status != ERROR_SUCCESS)
     {
         return false;

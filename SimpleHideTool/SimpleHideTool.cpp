@@ -17,9 +17,9 @@ int wmain(int argc, TCHAR* argv[])
     {
         // dll install
         std::wstring x86_DLL_directory = GetFullCurrentProcessPathToFolder();
-        x86_DLL_directory += L"\\hookDLL\\x86";
+        x86_DLL_directory += X86hookDllPath;
         std::wstring x64_DLL_directory = GetFullCurrentProcessPathToFolder();
-        x64_DLL_directory += L"\\hookDLL\\x64";
+        x64_DLL_directory += X64hookDllPath;
 
         if (!ShtApi::Install(x86_DLL_directory, x64_DLL_directory))
         {

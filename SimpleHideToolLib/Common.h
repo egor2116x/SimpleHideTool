@@ -16,6 +16,9 @@
 #define LOG_SERVICE_BIN_NAME L"SimpleHideToolSrv.exe"
 #define LOG_KEY_FLAGS L"LogFlags"
 
+#define X86hookDllPath L"\\hookDLL\\x86"
+#define X64hookDllPath L"\\hookDLL\\x64"
+
 // flags for messages filtering
 #define LOG_FATAL   0x00000001
 #define LOG_ERROR   0x00000002
